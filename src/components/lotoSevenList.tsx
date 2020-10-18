@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import axios, { AxiosError } from 'axios';
 import { Simulate } from 'react-dom/test-utils';
 import { LotoSevenType } from '../types/lotoSevenType';
 
-export const LotoSevenList = () => {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const LotoSevenList: FC<{}> = () => {
   const [lotoSevens, setLotoSevens] = useState<LotoSevenType[]>([]);
   const [number, setNumber] = useState<string>('');
   const [searchResultLotoSevens, setSearchResultLotoSevens] = useState<
@@ -11,7 +12,7 @@ export const LotoSevenList = () => {
   >();
   const getLotoSevens = async () => {
     const response = await axios
-      .get('http://0.0.0.0:8000/api/loto_seven/')
+      .get('http://127.0.0.1:8888/api/lotoseven/')
       // eslint-disable-next-line no-shadow
       .catch((error: AxiosError) => {
         throw error;
@@ -26,7 +27,7 @@ export const LotoSevenList = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const searchLotoSevens = async () => {
     const response = await axios
-      .get(`http://0.0.0.0:8000/api/loto_seven/${number}`)
+      .get(`http://127.0.0.1:8888/api/lotoseven/${number}`)
       .catch((error: AxiosError) => {
         throw error;
       });
@@ -54,8 +55,16 @@ export const LotoSevenList = () => {
       <ul>
         {lotoSevens.map((lotoSeven: any) => (
           <li key={lotoSeven.times}>
-            {`第${lotoSeven.times}回`}
-            {lotoSeven.number}
+            {`第${lotoSeven.times}回 `}
+            {`${lotoSeven.number_1},`}
+            {`${lotoSeven.number_2},`}
+            {`${lotoSeven.number_3},`}
+            {`${lotoSeven.number_4},`}
+            {`${lotoSeven.number_5},`}
+            {`${lotoSeven.number_6},`}
+            {`${lotoSeven.number_7},`}
+            {`${lotoSeven.bonus_number1},`}
+            {`${lotoSeven.bonus_number2}`}
           </li>
         ))}
       </ul>
@@ -67,7 +76,6 @@ export const LotoSevenList = () => {
       <button type="button" onClick={() => searchLotoSevens()}>
         Search
       </button>
-      <h3>{searchResultLotoSevens?.number}</h3>
     </div>
   );
 };

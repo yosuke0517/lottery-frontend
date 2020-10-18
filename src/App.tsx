@@ -1,15 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { FC } from 'react';
 import './App.css';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { lightBlue } from '@material-ui/core/colors';
 import { LotoSevenList } from './components/lotoSevenList';
+// eslint-disable-next-line import/no-cycle
+import Navbar from './components/Navbar';
 
-const App = () => (
-  <div className="App">
-    <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <LotoSevenList />
-    </header>
-  </div>
+const theme = createMuiTheme({
+  palette: {
+    primary: lightBlue,
+    secondary: {
+      main: '#f44336',
+    },
+  },
+  typography: {
+    fontFamily: 'Comic Neue',
+  },
+});
+
+const App: FC = () => (
+  <ThemeProvider theme={theme}>
+    <div className="App">
+      <Navbar />
+      <header className="App-header">
+        <LotoSevenList />
+      </header>
+    </div>
+  </ThemeProvider>
 );
 
 export default App;
