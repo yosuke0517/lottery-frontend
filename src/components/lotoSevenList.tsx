@@ -132,7 +132,7 @@ export const LotoSevenList: FC<{}> = () => {
 
   return (
     <div>
-      <ResultTable header={columns} data={lotoSevens} />s
+      <ResultTable header={columns} data={lotoSevens} />
     </div>
   );
 };
