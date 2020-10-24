@@ -20,5 +20,6 @@ export interface LotoSevenType {
   bonus_number1: string;
   // eslint-disable-next-line camelcase
   bonus_number2: string;
+  // eslint-disable-next-line camelcase
   lottery_number: string;
 }

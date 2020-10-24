@@ -30,7 +30,7 @@ const Navbar: FC<{}> = (props: any) => {
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h5" className={classes.title}>
-          Lottery APP
+          Loto系宝くじ検索アプリ
         </Typography>
         <ExitToAppIcon className="signOut" onClick={Logout()} />
       </Toolbar>
