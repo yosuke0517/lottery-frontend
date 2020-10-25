@@ -99,11 +99,6 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
     setOpen(false);
   };
 
-  const search = () => {
-    // state.exactMode &&
-    console.log(state);
-  };
-
   /** 現状のstateを変数へ格納して入力値で書き換える（exact系の番号） */
   const inputChangedExactNumber = () => (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -131,6 +126,25 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
       throw new Error('Server Error');
     }
     const res = response.data;
+
+    return setLotoSevens(res);
+  };
+
+  const search = async () => {
+    // state.exactMode &&
+    const response = await axios
+      .get(`http://127.0.0.1:8888/api${location.pathname}/`, {
+        params: { lottery_number: state.lottery_number },
+      })
+      // eslint-disable-next-line no-shadow
+      .catch((error: AxiosError) => {
+        throw error;
+      });
+    if (response.status !== 200) {
+      throw new Error('Server Error');
+    }
+    const res = response.data;
+    handleClose();
 
     return setLotoSevens(res);
   };
