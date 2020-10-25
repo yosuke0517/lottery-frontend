@@ -4,6 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import HomeIcon from '@material-ui/icons/Home';
 import { withCookies } from 'react-cookie';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -23,12 +24,16 @@ const Navbar: FC<{}> = (props: any) => {
   const [auth, setAuth] = React.useState(false);
   const Logout = () => () => {
     props.cookies.remove('current-token');
+    window.location.href = '/login';
+  };
+  const toHome = () => {
     window.location.href = '/';
   };
 
   return (
     <AppBar position="static">
       <Toolbar>
+        <HomeIcon className="home" onClick={toHome} />
         <Typography variant="h5" className={classes.title}>
           Loto系宝くじ検索アプリ
         </Typography>

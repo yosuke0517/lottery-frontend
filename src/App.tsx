@@ -19,7 +19,7 @@ const theme = createMuiTheme({
   },
 });
 
-const App: FC = () => (
+const App: FC = props => (
   <ThemeProvider theme={theme}>
     <div className="App">
       <Navbar />

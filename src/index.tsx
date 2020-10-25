@@ -6,13 +6,15 @@ import { CookiesProvider } from 'react-cookie';
 import * as serviceWorker from './serviceWorker';
 import Login from './components/Login';
 import App from './App';
+import Home from './components/Home';
 
 const routing = (
   <React.StrictMode>
     <BrowserRouter>
       {/* propsでcookieが使えるようにする*/}
       <CookiesProvider>
-        <Route exact path="/" component={Login} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/" component={Home} />
         <Route exact path="/lotoseven" component={App} />
       </CookiesProvider>
     </BrowserRouter>
