@@ -3,9 +3,9 @@ import './App.css';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { lightBlue } from '@material-ui/core/colors';
-import { LotoSevenList } from './components/lotoSevenList';
 // eslint-disable-next-line import/no-cycle
 import Navbar from './components/Navbar';
+import Lotos from './components/Lotos';
 
 const theme = createMuiTheme({
   palette: {
@@ -24,7 +24,7 @@ const App: FC = props => (
     <div className="App">
       <Navbar />
       <header className="App-header">
-        <LotoSevenList />
+        <Lotos />
       </header>
     </div>
   </ThemeProvider>

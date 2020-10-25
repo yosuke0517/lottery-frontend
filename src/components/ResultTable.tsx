@@ -14,10 +14,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 // eslint-disable-next-line import/no-cycle
-import { Column } from './lotoSevenList';
+import { Column } from './Lotos/lotosList';
 import { LotoSevenType } from '../types/lotoSevenType';
 
-interface CharacterListProps {
+interface LotoListProps {
   header: Column[];
   data: LotoSevenType[];
 }
@@ -56,7 +56,7 @@ const useStyles = makeStyles({
 /**
  * @props: headerInfo, data
  */
-const ResultTable: FC<CharacterListProps> = ({
+const ResultTable: FC<LotoListProps> = ({
   // propsの型を指定する
   header,
   data,

@@ -15,6 +15,9 @@ const routing = (
       <CookiesProvider>
         <Route exact path="/login" component={Login} />
         <Route exact path="/" component={Home} />
+        {/* TODO まとめる方法はないか確認*/}
+        <Route exact path="/miniloto" component={App} />
+        <Route exact path="/lotosix" component={App} />
         <Route exact path="/lotoseven" component={App} />
       </CookiesProvider>
     </BrowserRouter>

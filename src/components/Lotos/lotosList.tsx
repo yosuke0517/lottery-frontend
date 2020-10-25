@@ -1,9 +1,9 @@
 import React, { useState, useEffect, FC } from 'react';
 import axios, { AxiosError } from 'axios';
 import { Simulate } from 'react-dom/test-utils';
-import { LotoSevenType } from '../types/lotoSevenType';
+import { LotoSevenType } from '../../types/lotoSevenType';
 // eslint-disable-next-line import/no-cycle
-import ResultTable from './ResultTable';
+import ResultTable from '../ResultTable';
 
 export interface Column {
   id:
@@ -83,56 +83,16 @@ const columns: Column[] = [
     align: 'right',
   },
 ];
+
+interface LotoListProps {
+  data: LotoSevenType[];
+}
+
 // eslint-disable-next-line @typescript-eslint/ban-types
-export const LotoSevenList: FC<{}> = () => {
-  const [lotoSevens, setLotoSevens] = useState<LotoSevenType[]>([]);
-  const [number, setNumber] = useState<string>('');
-  const [searchResultLotoSevens, setSearchResultLotoSevens] = useState<
-    LotoSevenType
-  >();
-  const getLotoSevens = async () => {
-    const response = await axios
-      .get('http://127.0.0.1:8888/api/lotoseven/')
-      // eslint-disable-next-line no-shadow
-      .catch((error: AxiosError) => {
-        throw error;
-      });
-    if (response.status !== 200) {
-      throw new Error('Server Error');
-    }
-    const res = response.data;
-
-    return setLotoSevens(res);
-  };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const searchLotoSevens = async () => {
-    const response = await axios
-      .get(`http://127.0.0.1:8888/api/lotoseven/${number}`)
-      .catch((error: AxiosError) => {
-        throw error;
-      });
-    if (response.status !== 200) {
-      throw new Error('Server Error');
-    }
-    const res = response.data;
-
-    return setSearchResultLotoSevens(res);
-  };
-
-  // 一発目は全てのデータを取ってくる
-  useEffect(() => {
-    getLotoSevens();
-  }, []);
-  // 入力あるたびに検索したい
-  // useEffect(() => {
-  //   searchLotoSevens().catch((error: AxiosError) => {
-  //     throw error;
-  //   });
-  // }, [number]);
-
+export const LotosList: FC<LotoListProps> = lotoList => {
   return (
     <div>
-      <ResultTable header={columns} data={lotoSevens} />
+      <ResultTable header={columns} data={lotoList.data} />
     </div>
   );
 };
