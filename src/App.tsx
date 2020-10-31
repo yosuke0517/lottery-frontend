@@ -23,9 +23,7 @@ const App: FC = props => (
   <ThemeProvider theme={theme}>
     <div className="App">
       <Navbar />
-      <header className="App-header">
-        <Lotos />
-      </header>
+      <Lotos />
     </div>
   </ThemeProvider>
 );

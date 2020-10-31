@@ -1,5 +1,5 @@
 import React, { FC, useReducer } from 'react';
-import { withCookies } from 'react-cookie';
+import { useCookies, withCookies } from 'react-cookie';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem, { ListItemProps } from '@material-ui/core/ListItem';
@@ -22,19 +22,23 @@ const ListItemLink = (props: ListItemProps<'a', { button?: true }>) => {
 
 const Home: FC<{}> = (props: any) => {
   const classes = useStyles();
+  const [cookies, setCookie] = useCookies(['current-token']);
 
   return (
     <>
       <div className={classes.root}>
         <List component="nav" aria-label="secondary mailbox folders">
-          <ListItemLink href="/login">
-            <ListItemText primary="Login" />
-          </ListItemLink>
-          {LotoTypes.map((loto: string) => (
-            <ListItemLink href={`/${loto}`}>
-              <ListItemText primary={`${loto}`} />
+          {cookies['current-token'] ? (
+            LotoTypes.map((loto: string) => (
+              <ListItemLink href={`/${loto}`}>
+                <ListItemText primary={`${loto}`} />
+              </ListItemLink>
+            ))
+          ) : (
+            <ListItemLink href="/login">
+              <ListItemText primary="Login" />
             </ListItemLink>
-          ))}
+          )}
         </List>
       </div>
     </>

@@ -167,8 +167,8 @@ const Login: FC<{}> = (props: any) => {
       props.cookies.set('current-token', res.data.token);
       // eslint-disable-next-line no-unused-expressions
       res.data.token
-        ? (window.location.href = '/lotoseven')
-        : (window.location.href = '/');
+        ? (window.location.href = '/')
+        : (window.location.href = '/login');
       dispatch({
         type: FETCH_SUCCESS,
       });

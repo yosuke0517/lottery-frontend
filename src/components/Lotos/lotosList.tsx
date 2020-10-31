@@ -90,6 +90,12 @@ interface LotoListProps {
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const LotosList: FC<LotoListProps> = lotoList => {
+  const data = () => {
+    lotoList.data.map(loto => {
+      loto.lottery_date.slice(0, 10);
+    });
+  };
+
   return (
     <div>
       <ResultTable header={columns} data={lotoList.data} />

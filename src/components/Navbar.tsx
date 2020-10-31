@@ -35,7 +35,7 @@ const Navbar: FC<{}> = (props: any) => {
       <Toolbar>
         <HomeIcon className="home" onClick={toHome} />
         <Typography variant="h5" className={classes.title}>
-          Loto系宝くじ検索アプリ
+          Loto系宝くじ結果検索アプリ
         </Typography>
         <ExitToAppIcon className="signOut" onClick={Logout()} />
       </Toolbar>
