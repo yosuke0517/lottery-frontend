@@ -152,7 +152,7 @@ const Login: FC<{}> = (props: any) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const res: AxiosResponse = await axios
-        .post('http://18.177.145.215:8000/authen/', state.credentialsLogin, {
+        .post('http://18.177.145.215/authen/', state.credentialsLogin, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -178,15 +178,11 @@ const Login: FC<{}> = (props: any) => {
         type: START_FETCH,
       });
       await axios
-        .post(
-          'http://18.177.145.215:8000/api/create/',
-          state.credentialsRegister,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
+        .post('http://18.177.145.215/api/create/', state.credentialsRegister, {
+          headers: {
+            'Content-Type': 'application/json',
           },
-        )
+        })
         .catch(error => {
           dispatch({
             type: ERROR_CATCHED,
