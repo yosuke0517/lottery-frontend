@@ -152,7 +152,7 @@ const Login: FC<{}> = (props: any) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const res: AxiosResponse = await axios
-        .post('http://18.177.145.215/authen/', state.credentialsLogin, {
+        .post('https://2021lottery.tk/authen/', state.credentialsLogin, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -178,7 +178,7 @@ const Login: FC<{}> = (props: any) => {
         type: START_FETCH,
       });
       await axios
-        .post('http://18.177.145.215/api/create/', state.credentialsRegister, {
+        .post('https://2021lottery.tk/api/create/', state.credentialsRegister, {
           headers: {
             'Content-Type': 'application/json',
           },

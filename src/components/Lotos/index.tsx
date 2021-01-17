@@ -225,7 +225,7 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
 
   const getLotoSevens = async () => {
     const response = await axios
-      .get(`http://18.177.145.215/api${lotoType}/`, {
+      .get(`https://2021lottery.tk/api${lotoType}/`, {
         headers: {
           Authorization: `Token ${cookies['current-token']}`,
         },
@@ -246,7 +246,7 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
     // state.exactMode &&
     const params = makeParam(simpleSearchParam);
     const response = await axios
-      .get(`http://18.177.145.215/api${location.pathname}/`, {
+      .get(`https://2021lottery.tk/api${location.pathname}/`, {
         params: { lottery_number: params },
         headers: {
           Authorization: `Token ${cookies['current-token']}`,
