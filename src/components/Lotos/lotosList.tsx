@@ -4,6 +4,7 @@ import { Simulate } from 'react-dom/test-utils';
 import { LotoSevenType } from '../../types/lotoSevenType';
 // eslint-disable-next-line import/no-cycle
 import ResultTable from '../ResultTable';
+import CONST from '../../const/lotoTypes';
 
 export interface Column {
   id:
@@ -25,7 +26,7 @@ export interface Column {
   format?: (value: number) => string;
 }
 
-const columns: Column[] = [
+const columns: Column[] | [] = [
   { id: 'lottery_date', label: '抽選日時', minWidth: 70 },
   { id: 'times', label: '開催回数（第何回）', minWidth: 70 },
   {
@@ -86,19 +87,38 @@ const columns: Column[] = [
 
 interface LotoListProps {
   data: LotoSevenType[];
+  lotoType: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const LotosList: FC<LotoListProps> = lotoList => {
-  const data = () => {
-    lotoList.data.map(loto => {
-      loto.lottery_date.slice(0, 10);
-    });
+  const shavedDateData: LotoSevenType[] = [];
+  // eslint-disable-next-line no-shadow
+  const data = lotoList.data.map(data => {
+    // eslint-disable-next-line no-param-reassign
+    data.lottery_date = data.lottery_date.slice(0, 10);
+    shavedDateData.push(data);
+
+    return shavedDateData;
+  });
+
+  // lotoTypeに応じてヘッダーを編集
+  const header = () => {
+    switch (lotoList.lotoType.slice(1)) {
+      case 'miniloto':
+        return columns.filter(column => CONST.MINI_LOTO.includes(column.id));
+      case 'lotosix':
+        return columns.filter(column => CONST.LOTO_SIX.includes(column.id));
+      case 'lotoseven':
+        return columns.filter(column => CONST.LOTO_SEVEN.includes(column.id));
+      default:
+        return [];
+    }
   };
 
   return (
     <div>
-      <ResultTable header={columns} data={lotoList.data} />
+      <ResultTable header={header()} data={shavedDateData} />
     </div>
   );
 };
