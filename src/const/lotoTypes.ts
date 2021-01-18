@@ -1,6 +1,8 @@
 export const CONST = {
   LOTO_TYPES: ['miniloto', 'lotosix', 'lotoseven'],
   MINI_LOTO: [
+    'lottery_date',
+    'times',
     'number_1',
     'number_2',
     'number_3',
@@ -9,6 +11,8 @@ export const CONST = {
     'bonus_number1',
   ],
   LOTO_SIX: [
+    'lottery_date',
+    'times',
     'number_1',
     'number_2',
     'number_3',
@@ -18,6 +22,8 @@ export const CONST = {
     'bonus_number1',
   ],
   LOTO_SEVEN: [
+    'lottery_date',
+    'times',
     'number_1',
     'number_2',
     'number_3',
