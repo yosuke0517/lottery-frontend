@@ -4,7 +4,7 @@ import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem, { ListItemProps } from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import LotoTypes from '../const/lotoTypes';
+import CONST from '../const/lotoTypes';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,7 +29,7 @@ const Home: FC<{}> = (props: any) => {
       <div className={classes.root}>
         <List component="nav" aria-label="secondary mailbox folders">
           {cookies['current-token'] ? (
-            LotoTypes.map((loto: string) => (
+            CONST.LOTO_TYPES.map((loto: string) => (
               <ListItemLink href={`/${loto}`}>
                 <ListItemText primary={`${loto}`} />
               </ListItemLink>

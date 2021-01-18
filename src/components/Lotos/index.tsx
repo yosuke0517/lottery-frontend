@@ -342,7 +342,7 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
           </Button>
         </DialogActions>
       </Dialog>
-      <LotosList data={lotoSevens} />
+      <LotosList data={lotoSevens} lotoType={lotoType} />
     </div>
   );
 };
