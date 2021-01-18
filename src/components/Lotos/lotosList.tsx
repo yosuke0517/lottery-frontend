@@ -112,7 +112,7 @@ export const LotosList: FC<LotoListProps> = lotoList => {
       case 'lotoseven':
         return columns.filter(column => CONST.LOTO_SEVEN.includes(column.id));
       default:
-        return [];
+        return columns;
     }
   };
 
