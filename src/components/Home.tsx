@@ -5,12 +5,12 @@ import List from '@material-ui/core/List';
 import ListItem, { ListItemProps } from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import CONST from '../const/lotoTypes';
+import Login from './Login';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: '100%',
-      maxWidth: 360,
       backgroundColor: theme.palette.background.paper,
     },
   }),
@@ -35,9 +35,7 @@ const Home: FC<{}> = (props: any) => {
               </ListItemLink>
             ))
           ) : (
-            <ListItemLink href="/login">
-              <ListItemText primary="Login" />
-            </ListItemLink>
+            <Login />
           )}
         </List>
       </div>
