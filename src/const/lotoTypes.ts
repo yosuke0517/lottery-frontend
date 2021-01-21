@@ -1,5 +1,6 @@
 export const CONST = {
   LOTO_TYPES: ['miniloto', 'lotosix', 'lotoseven'],
+  LOTO_TYPES_OBJ: [],
   MINI_LOTO: [
     'lottery_date',
     'times',
