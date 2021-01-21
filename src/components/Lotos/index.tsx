@@ -53,6 +53,9 @@ const useStyles = makeStyles((theme: Theme) =>
     noLabel: {
       marginTop: theme.spacing(3),
     },
+    lotoName: {
+      marginRight: theme.spacing(3),
+    },
   }),
 );
 
@@ -232,6 +235,9 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
       })
       // eslint-disable-next-line no-shadow
       .catch((error: AxiosError) => {
+        if (error.response?.status === 401) {
+          window.location.href = '/login';
+        }
         throw error;
       });
     if (response.status !== 200) {
@@ -254,6 +260,9 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
       })
       // eslint-disable-next-line no-shadow
       .catch((error: AxiosError) => {
+        if (error.response?.status === 401) {
+          window.location.href = '/login';
+        }
         throw error;
       });
     if (response.status !== 200) {
@@ -279,6 +288,7 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
   return (
     <div className="App-header">
       <div className="searchButton">
+        <span className={classes.lotoName}>{lotoType.slice(1)}</span>
         <Button variant="outlined" color="primary" onClick={handleClickOpen}>
           シンプル絞り込み検索
         </Button>
