@@ -15,16 +15,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import axios, { AxiosError } from 'axios';
-import { TextField } from '@material-ui/core';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
 import { useCookies } from 'react-cookie';
-import { LoginTypes } from '../../types/loginTypes';
 import { Column, LotosList } from './lotosList';
 import { SearchTypes } from '../../types/searchTypes';
 import {
@@ -34,7 +31,9 @@ import {
   START_FETCH,
   TOGGLE_MODE,
 } from '../../types/actionTypes';
+import { LotoTypes } from '../../types/lotoTypes';
 import { LotoSevenType } from '../../types/lotoSevenType';
+import CONST from '../../const/lotoTypes';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -179,6 +178,13 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
   // miniloto or lotosix or lotoseven
   const lotoType = location.pathname;
 
+  // ロトタイプの英語表記,日本語表記をObjectで取得する
+  const getLotoTypeObj = (): LotoTypes | undefined => {
+    return CONST.LOTO_TYPES_OBJ.find(v => v.id === lotoType.slice(1));
+  };
+
+  const lotoTypeObj = getLotoTypeObj();
+
   const makeNames = () => {
     let limitNum = 31;
     const numArray = [];
@@ -278,17 +284,11 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
   useEffect(() => {
     getLotoSevens();
   }, []);
-  // 入力あるたびに検索したい
-  // useEffect(() => {
-  //   searchLotoSevens().catch((error: AxiosError) => {
-  //     throw error;
-  //   });
-  // }, [number]);
 
   return (
     <div className="App-header">
       <div className="searchButton">
-        <span className={classes.lotoName}>{lotoType.slice(1)}</span>
+        <span className={classes.lotoName}>{lotoTypeObj?.ja}</span>
         <Button variant="outlined" color="primary" onClick={handleClickOpen}>
           シンプル絞り込み検索
         </Button>
