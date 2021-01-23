@@ -29,8 +29,9 @@ const Home: FC<{}> = (props: any) => {
       <div className={classes.root}>
         <List component="nav" aria-label="secondary mailbox folders">
           {cookies['current-token'] ? (
-            CONST.LOTO_TYPES.map((loto: string) => (
-              <ListItemLink href={`/${loto}`}>
+            CONST.LOTO_TYPES.map((loto: string, index: number) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <ListItemLink href={`/${loto}`} key={index}>
                 <ListItemText primary={`${loto}`} />
               </ListItemLink>
             ))
