@@ -13,7 +13,7 @@ import ListItem, { ListItemProps } from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import HomeIcon from '@material-ui/icons/Home';
 import AppsIcon from '@material-ui/icons/Apps';
 import { withCookies } from 'react-cookie';
 import CONST from '../const/lotoTypes';
@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     menuButton: {
       margin: theme.spacing(0),
+      minWidth: 0,
     },
     title: {
       flexGrow: 1,
@@ -59,8 +60,14 @@ const Navbar: FC<{}> = (props: any) => {
     window.location.href = '/';
   };
 
+  /** サイドバーでの画面遷移（TODO window.locationは使いたくない)
+   * @param index サイドバー項目上から0~
+   */
   const sidebarClick = (index: number) => {
-    window.location.href = CONST.LOTO_TYPES[index];
+    // eslint-disable-next-line no-unused-expressions
+    index === 0
+      ? (window.location.href = '/')
+      : (window.location.href = CONST.LOTO_TYPES[index - 1]);
   };
 
   /** DrawerList サンプル*/
@@ -72,10 +79,10 @@ const Navbar: FC<{}> = (props: any) => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {['ミニロト', 'ロト6', 'ロト7'].map((loto, index) => (
+        {['ホーム', 'ミニロト', 'ロト6', 'ロト7'].map((loto, index) => (
           <ListItem button key={loto} onClick={() => sidebarClick(index)}>
             <ListItemIcon>
-              <InboxIcon />
+              {index === 0 ? <HomeIcon /> : <InboxIcon />}
             </ListItemIcon>
             <ListItemText primary={loto} />
           </ListItem>
