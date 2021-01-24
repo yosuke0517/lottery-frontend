@@ -38,6 +38,10 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  kantan: {
+    margin: theme.spacing(3, 0, 2),
+    backgroundColor: '#4caf50',
+  },
   span: {
     display: 'flex',
     flexDirection: 'column',
@@ -116,7 +120,7 @@ const Login: FC<{}> = (props: any) => {
   const [state, dispatch] = useReducer(loginReducer, initialState);
 
   /** 現状のstateを変数へ格納して入力値で書き換える（ログイン） */
-  const inputChangedLog = () => (
+  const inputChangedLogin = () => (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     // 現状のstateを変数へ格納して入力値で書き換える
@@ -130,7 +134,7 @@ const Login: FC<{}> = (props: any) => {
   };
 
   /** 現状のstateを変数へ格納して入力値で書き換える（登録） */
-  const inputChangedReg = () => (
+  const inputChangedRegister = () => (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const cred = state.credentialsRegister;
@@ -143,7 +147,7 @@ const Login: FC<{}> = (props: any) => {
   };
 
   /** ログイン処理 */
-  const login = async (event: any) => {
+  const login = async (event: React.FormEvent) => {
     event.preventDefault(); // submitなのでURLへ遷移しようとしてリフレッシュされてしまう。今回は不要なので、させないようにする
     /** ログインの場合 */
     if (state.isLoginView) {
@@ -152,11 +156,15 @@ const Login: FC<{}> = (props: any) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const res: AxiosResponse = await axios
-        .post('https://2021lottery.tk/authen/', state.credentialsLogin, {
-          headers: {
-            'Content-Type': 'application/json',
+        .post(
+          `${process.env.REACT_APP_ENDPOINT}/authen/`,
+          state.credentialsLogin,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
           },
-        })
+        )
         .catch(error => {
           dispatch({
             type: ERROR_CATCHED,
@@ -178,11 +186,15 @@ const Login: FC<{}> = (props: any) => {
         type: START_FETCH,
       });
       await axios
-        .post('https://2021lottery.tk/api/create/', state.credentialsRegister, {
-          headers: {
-            'Content-Type': 'application/json',
+        .post(
+          `${process.env.REACT_APP_ENDPOINT}/api/create/`,
+          state.credentialsRegister,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
           },
-        })
+        )
         .catch(error => {
           dispatch({
             type: ERROR_CATCHED,
@@ -194,6 +206,34 @@ const Login: FC<{}> = (props: any) => {
       dispatch({ type: TOGGLE_MODE }); // 登録が終わったらログイン画面へ切り替える
       // TODO 登録が無事終わったらログインしてくださいアラートを出す
     }
+  };
+
+  // 簡単ログイン
+  const testLogin = async (event: React.FormEvent) => {
+    event.preventDefault(); // submitなのでURLへ遷移しようとしてリフレッシュされてしまう。今回は不要なので、させないようにする
+    dispatch({ type: START_FETCH });
+    const res = await axios
+      .post(`${process.env.REACT_APP_ENDPOINT}/api/testlogin/`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .catch(error => {
+        dispatch({
+          type: ERROR_CATCHED,
+        });
+        throw error;
+        // TODO エラー画面へ飛ばす処理またはトースターを出す処理
+      });
+    if (res.data.token) {
+      props.cookies.set('current-token', res.data.token);
+      window.location.href = '/';
+    } else {
+      window.location.href = '/login';
+    }
+    dispatch({
+      type: FETCH_SUCCESS,
+    });
   };
 
   /** ログインと新規登録ボタンの切り替え */
@@ -223,7 +263,7 @@ const Login: FC<{}> = (props: any) => {
                 label="Email"
                 name="username"
                 value={state.credentialsLogin.username}
-                onChange={inputChangedLog()}
+                onChange={inputChangedLogin()}
                 autoFocus
               />
             ) : (
@@ -234,7 +274,7 @@ const Login: FC<{}> = (props: any) => {
                 label="Email"
                 name="email"
                 value={state.credentialsRegister.email}
-                onChange={inputChangedReg()}
+                onChange={inputChangedRegister()}
                 autoFocus
               />
             )}
@@ -248,7 +288,7 @@ const Login: FC<{}> = (props: any) => {
                 name="password"
                 type="password"
                 value={state.credentialsLogin.password}
-                onChange={inputChangedLog()}
+                onChange={inputChangedLogin()}
               />
             ) : (
               <TextField
@@ -259,11 +299,12 @@ const Login: FC<{}> = (props: any) => {
                 name="password"
                 type="password"
                 value={state.credentialsRegister.password}
-                onChange={inputChangedReg()}
+                onChange={inputChangedRegister()}
               />
             )}
             {/* <span className={classes.spanError}>{state.error}</span>*/}
 
+            {/* ログインViewのときの活性・非活性判定 */}
             {/* eslint-disable-next-line no-nested-ternary */}
             {state.isLoginView ? (
               !state.credentialsLogin.password ||
@@ -311,6 +352,19 @@ const Login: FC<{}> = (props: any) => {
               >
                 Register
               </Button>
+            )}
+            {state.isLoginView ? (
+              <Button
+                className={classes.kantan}
+                type="submit"
+                fullWidth
+                variant="contained"
+                onClick={testLogin}
+              >
+                簡単ログイン
+              </Button>
+            ) : (
+              <div />
             )}
 
             {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events */}
