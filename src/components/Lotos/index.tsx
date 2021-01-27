@@ -233,6 +233,22 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
     LotoSevenType
   >();
 
+  // 取得した実施結果をソートする関数（ソートkeyは第n回）
+  const resultSort = (data: LotoSevenType[]): LotoSevenType[] => {
+    data.sort((a: LotoSevenType, b: LotoSevenType) => {
+      if (a.times > b.times) {
+        return -1;
+      }
+      if (a.times < b.times) {
+        return 1;
+      }
+
+      return 0;
+    });
+
+    return data;
+  };
+
   const getLotoResults = async () => {
     const response = await axios
       .get(`${process.env.REACT_APP_ENDPOINT}/api${lotoType}/`, {
@@ -250,18 +266,7 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
     if (response.status !== 200) {
       throw new Error('Server Error');
     }
-    const res: LotoSevenType[] = response.data;
-    // 昇順にソート
-    res.sort((a: LotoSevenType, b: LotoSevenType) => {
-      if (a.times > b.times) {
-        return -1;
-      }
-      if (a.times < b.times) {
-        return 1;
-      }
-
-      return 0;
-    });
+    const res: LotoSevenType[] = resultSort(response.data);
 
     return setLotoSevens(res);
   };
@@ -286,7 +291,7 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
     if (response.status !== 200) {
       throw new Error('Server Error');
     }
-    const res = response.data;
+    const res: LotoSevenType[] = resultSort(response.data);
     handleClose();
 
     return setLotoSevens(res);
