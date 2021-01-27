@@ -150,18 +150,19 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
    * @param: inputNum
    * */
   const makeParam = (inputNum: string[]) => {
+    // 照準じゃないと想定結果が得られないので昇順にソートする
+    inputNum.sort();
     // 1桁の番号にprefixの0をつけて返す
     const prefixZeroArrayNum = inputNum.map(value => {
       if (value.length === 1) {
         return `0${value}`;
       }
-      // 1桁以外の場合は何もしない
+      // 1桁以外の場合はそのままでOK
       // eslint-disable-next-line newline-before-return
       return value;
     });
-    const prefixZeroNumStr = prefixZeroArrayNum.join(',');
 
-    return prefixZeroNumStr;
+    return prefixZeroArrayNum.join(',');
   };
 
   /** 現状のstateを変数へ格納して入力値で書き換える（exact系の番号） */
@@ -185,7 +186,9 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
 
   const lotoTypeObj = getLotoTypeObj();
 
-  const makeNames = () => {
+  // 検索時に選択するための番号（配列）をロトタイプに合わせて動的に生成する
+  const makeSelectNumbers = (): string[] => {
+    // デフォルトはミニロト
     let limitNum = 31;
     const numArray = [];
     switch (lotoType) {
@@ -205,8 +208,6 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
 
     return numArray;
   };
-
-  const names = makeNames();
 
   const [simpleSearchParam, setSimpleSearchParam] = React.useState<string[]>(
     [],
@@ -232,7 +233,7 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
     LotoSevenType
   >();
 
-  const getLotoSevens = async () => {
+  const getLotoResults = async () => {
     const response = await axios
       .get(`${process.env.REACT_APP_ENDPOINT}/api${lotoType}/`, {
         headers: {
@@ -249,7 +250,18 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
     if (response.status !== 200) {
       throw new Error('Server Error');
     }
-    const res = response.data;
+    const res: LotoSevenType[] = response.data;
+    // 昇順にソート
+    res.sort((a: LotoSevenType, b: LotoSevenType) => {
+      if (a.times > b.times) {
+        return -1;
+      }
+      if (a.times < b.times) {
+        return 1;
+      }
+
+      return 0;
+    });
 
     return setLotoSevens(res);
   };
@@ -282,7 +294,7 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
 
   // 一発目は全てのデータを取ってくる
   useEffect(() => {
-    getLotoSevens();
+    getLotoResults();
   }, []);
 
   return (
@@ -326,13 +338,13 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
               )}
               MenuProps={MenuProps}
             >
-              {names.map(name => (
+              {makeSelectNumbers().map(number => (
                 <MenuItem
-                  key={name}
-                  value={name}
-                  style={getStyles(name, simpleSearchParam, theme)}
+                  key={number}
+                  value={number}
+                  style={getStyles(number, simpleSearchParam, theme)}
                 >
-                  {name}
+                  {number}
                 </MenuItem>
               ))}
             </Select>
