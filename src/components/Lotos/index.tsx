@@ -251,7 +251,7 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
       throw new Error('Server Error');
     }
     const res: LotoSevenType[] = response.data;
-    // 昇順にソート
+    // 昇順にソート TODO 共通化できる（検索時にもやってる）
     res.sort((a: LotoSevenType, b: LotoSevenType) => {
       if (a.times > b.times) {
         return -1;
@@ -287,6 +287,17 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
       throw new Error('Server Error');
     }
     const res = response.data;
+    // 昇順にソート
+    res.sort((a: LotoSevenType, b: LotoSevenType) => {
+      if (a.times > b.times) {
+        return -1;
+      }
+      if (a.times < b.times) {
+        return 1;
+      }
+
+      return 0;
+    });
     handleClose();
 
     return setLotoSevens(res);
