@@ -1,24 +1,22 @@
 import React, { FC, useReducer } from 'react';
 import { useCookies, withCookies } from 'react-cookie';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem, { ListItemProps } from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import CONST from '../const/lotoTypes';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Link from '@material-ui/core/Link';
+import Container from '@material-ui/core/Container';
 import Login from './Login';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: '100%',
-      backgroundColor: theme.palette.background.paper,
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   }),
 );
-
-const ListItemLink = (props: ListItemProps<'a', { button?: true }>) => {
-  return <ListItem button component="a" {...props} />;
-};
 
 const Home: FC<{}> = (props: any) => {
   const classes = useStyles();
@@ -26,20 +24,23 @@ const Home: FC<{}> = (props: any) => {
 
   return (
     <>
-      <div className={classes.root}>
-        <List component="nav" aria-label="secondary mailbox folders">
-          {cookies['current-token'] ? (
-            CONST.LOTO_TYPES.map((loto: string, index: number) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <ListItemLink href={`/${loto}`} key={index}>
-                <ListItemText primary={`${loto}`} />
-              </ListItemLink>
-            ))
-          ) : (
-            <Login />
-          )}
-        </List>
-      </div>
+      <Container maxWidth="sm" className={classes.root}>
+        {cookies['current-token'] ? (
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link color="inherit" href="/miniloto">
+              miniLoto
+            </Link>
+            <Link color="inherit" href="/lotosix">
+              loto6
+            </Link>
+            <Link color="inherit" href="/lotoseven">
+              loto7
+            </Link>
+          </Breadcrumbs>
+        ) : (
+          <Login />
+        )}
+      </Container>
     </>
   );
 };
