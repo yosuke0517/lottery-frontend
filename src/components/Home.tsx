@@ -3,7 +3,6 @@ import { useCookies, withCookies } from 'react-cookie';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
-import Container from '@material-ui/core/Container';
 import Login from './Login';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -24,7 +23,7 @@ const Home: FC<{}> = (props: any) => {
 
   return (
     <>
-      <Container maxWidth="sm" className={classes.root}>
+      <div className={classes.root}>
         {cookies['current-token'] ? (
           <Breadcrumbs aria-label="breadcrumb">
             <Link color="inherit" href="/miniloto">
@@ -40,7 +39,7 @@ const Home: FC<{}> = (props: any) => {
         ) : (
           <Login />
         )}
-      </Container>
+      </div>
     </>
   );
 };
