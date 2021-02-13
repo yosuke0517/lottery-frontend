@@ -268,7 +268,14 @@ const Lotos: FC<LotosProps> = ({ history, location, match }) => {
     }
     const res: LotoSevenType[] = resultSort(response.data);
 
-    return setLotoSevens(res);
+    // 同じ結果が複数表示される件に対する暫定対応（findIndexで取得したindexと現在のindexを比較することで表現）
+    // TODO 本来はバックエンドで同じtimesのデータをDBに格納しないようにしなければいけない
+    const filterResult = res.filter(
+      (loto, index, self) =>
+        self.findIndex(e => e.times === loto.times) === index,
+    );
+
+    return setLotoSevens(filterResult);
   };
 
   const search = async () => {
