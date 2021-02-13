@@ -242,7 +242,7 @@ const Login: FC<{}> = (props: any) => {
   };
 
   return (
-    <div>
+    <>
       <Container maxWidth="xs">
         {state.error && <Alert severity="error">{state.error}</Alert>}
         <form onSubmit={login}>
@@ -374,7 +374,7 @@ const Login: FC<{}> = (props: any) => {
           </div>
         </form>
       </Container>
-    </div>
+    </>
   );
 };
 
